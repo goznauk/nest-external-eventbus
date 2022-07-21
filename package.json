@@ -1,6 +1,6 @@
 {
   "name": "nest-external-eventbus",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "external eventbus module for @nestjs/cqrs",
   "author": { "name": "goznauk", "email": "goznauk@naver.com", "url": "https://github.com/goznauk" },
   "contributors": [],

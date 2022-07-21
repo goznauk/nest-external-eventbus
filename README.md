@@ -12,9 +12,9 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/org/nestjs-modules"><img src="https://img.shields.io/npm/v/nest-external-eventbus.svg" alt="NPM Version" /></a>
-  <a href="https://www.npmjs.com/org/nestjs-modules"><img src="https://img.shields.io/npm/l/nest-external-eventbus.svg" alt="Package License" /></a>
-  <a href="https://www.npmjs.com/org/nestjs-modules"><img src="https://img.shields.io/npm/dm/nest-external-eventbus.svg" alt="NPM Downloads" /></a>
+  <a href="https://www.npmjs.com/package/nest-external-eventbus"><img src="https://img.shields.io/npm/v/nest-external-eventbus.svg" alt="NPM Version" /></a>
+  <a href="https://www.npmjs.com/package/nest-external-eventbus"><img src="https://img.shields.io/npm/l/nest-external-eventbus.svg" alt="Package License" /></a>
+  <a href="https://www.npmjs.com/package/nest-external-eventbus"><img src="https://img.shields.io/npm/dm/nest-external-eventbus.svg" alt="NPM Downloads" /></a>
 </p>
 
 ### Installation
