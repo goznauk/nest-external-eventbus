@@ -1,5 +1,24 @@
 # example
 
+Simple CQRS example with REDIS eventbus
+
+├── README.md
+├── nest-cli.json
+├── package-lock.json
+├── package.json
+├── src
+│ ├── app.module.ts
+│ ├── command-handlers.ts
+│ ├── commands.ts
+│ ├── event-handlers.ts
+│ ├── events.ts
+│ ├── hero.model.ts
+│ ├── hero.repository.ts
+│ └── main.ts
+├── test.py
+├── tsconfig.build.json
+└── tsconfig.json
+
 ```sh
 git clone git@github.com:goznauk/nest-external-eventbus.git
 cd nest-external-eventbus
