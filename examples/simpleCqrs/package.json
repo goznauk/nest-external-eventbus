@@ -2,13 +2,20 @@
   "name": "example",
   "version": "0.0.1",
   "description": "example: external eventbus module for @nestjs/cqrs",
-  "author": { "name": "goznauk", "email": "goznauk@naver.com", "url": "https://github.com/goznauk" },
+  "author": {
+    "name": "goznauk",
+    "email": "goznauk@naver.com",
+    "url": "https://github.com/goznauk"
+  },
   "license": "MIT",
   "scripts": {
-    "prebuild": "rimraf dist",
+    "clean": "rimraf dist && mkdir dist",
+    "library:build": "cd ../../ && npm run build && npm pack --pack-destination=./examples/simpleCqrs/dist/ && cd ./examples/simpleCqrs/",
+    "library:install": "find ./dist/nest-external-eventbus-* -exec npm install {} \\;",
+    "prebuild": "npm run clean && npm run library:build && npm run library:install",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
+    "start": "npm run prebuild && nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -24,7 +31,7 @@
     "@nestjs/core": "^9.0.0",
     "@nestjs/cqrs": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
-    "nest-external-eventbus": "^0.0.1",
+    "nest-external-eventbus": "file:dist/nest-external-eventbus-0.0.3.tgz",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0"

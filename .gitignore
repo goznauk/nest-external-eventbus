@@ -1,4 +1,5 @@
 .env
+.tgz
 
 # compiled output
 /dist

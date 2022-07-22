@@ -1,32 +1,14 @@
-import { DynamicModule, Logger, Module, OnModuleInit, Type } from '@nestjs/common';
-import {  CqrsModule, EventBus, IEvent } from '@nestjs/cqrs';
+import { DynamicModule, Module, Type } from '@nestjs/common';
+import { CqrsModule } from '@nestjs/cqrs';
 import { RedisModule } from '@liaoliaots/nestjs-redis';
-import { RedisBusEventSubscriber } from './redis-bus.event.subscriber';
-import { RedisBusEventPublisher } from './redis-bus.event.publisher';
-import { RedisBusOptions } from './redis-bus.options';
 import { EVENTS, PUB_CHANNEL, PUBLISH, SUB_CHANNEL, SUBSCRIBE } from '../strings';
-import { StandardEvent } from '../standard-event';
+import { RedisBusOptions } from './redis-bus.options';
+import { RedisEventPubsub } from './redis.event.pubsub';
 
 
 @Module({})
-export class RedisBusModule implements OnModuleInit {
-	constructor(
-		private readonly eventBus: EventBus<StandardEvent<any>>,
-		private readonly publisher: RedisBusEventPublisher<StandardEvent<any>>,
-		private readonly subscriber: RedisBusEventSubscriber<StandardEvent<any>>,
-	) {
-		Logger.log('f')
-	}
-
-	onModuleInit() {
-		console.log('omi');
-		this.subscriber.connect();
-		this.subscriber.bridgeEventsTo(this.eventBus.subject$);
-
-		this.publisher.connect();
-		this.eventBus.publisher = this.publisher;
-
-	}
+export class RedisBusModule {
+	constructor() {}
 
 	static forRoot(
 		events: Type[] = [],
@@ -69,10 +51,9 @@ export class RedisBusModule implements OnModuleInit {
 					provide: PUB_CHANNEL,
 					useValue: options.pubChannel,
 				},
-				RedisBusEventPublisher,
-				RedisBusEventSubscriber,
+				RedisEventPubsub,
 			],
-			exports: [RedisBusModule, RedisBusEventPublisher, RedisBusEventSubscriber, CqrsModule],
+			exports: [RedisBusModule, RedisEventPubsub, CqrsModule],
 		};
 	}
 }

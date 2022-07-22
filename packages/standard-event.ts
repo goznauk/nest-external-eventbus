@@ -1,7 +1,6 @@
 import { IEvent } from '@nestjs/cqrs';
-import { StandardEventPayload } from './standard-event.payload';
 
-export class StandardEvent<T extends StandardEventPayload> implements IEvent {
+export class StandardEvent<T = any> implements IEvent {
 	public eventName = this.constructor.name;
 	public payload: T;
 

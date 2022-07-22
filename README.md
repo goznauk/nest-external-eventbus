@@ -20,11 +20,13 @@
 ### Installation
 
 #### with npm
+
 ```sh
 npm install --save nest-external-eventbus
 ```
 
 #### with yarn
+
 ```sh
 yarn add nest-external-eventbus
 ```
@@ -40,19 +42,18 @@ import { RedisBusModule, RedisBusOptions } from 'nest-external-eventbus';
 
 const events: Type[] = [HeroKilledDragonEvent, HeroFoundItemEvent];
 const redisOption: RedisBusOptions = {
-  subUrl: 'redis://localhost:6379',
-  subChannel: 'REDIS_CHANNEL_HERE',
+	subUrl: 'redis://localhost:6379',
+	subChannel: 'REDIS_CHANNEL_HERE',
 };
 
 @Module({
-  imports: [
-    RedisBusModule.forRoot(events, redisOption),
-  ],
-  controllers: [],
+	imports: [
+		RedisBusModule.forRoot(events, redisOption),
+	],
+	controllers: [],
 })
 export class AppModule {}
 ```
-
 
 #### Event Should extend StandardEvent
 
@@ -60,8 +61,26 @@ export class AppModule {}
 import { StandardEvent } from 'nest-external-eventbus';
 
 export class HeroKilledDragonEvent extends StandardEvent {
-  public constructor(public readonly payload: object) {}
+	public constructor(public readonly payload: object) {
+		super();
+	}
 }
+```
+
+### Example
+
+```sh
+git clone git@github.com:goznauk/nest-external-eventbus.git
+cd nest-external-eventbus
+npm install
+
+docker run -d  -p 6379:6379 -p 8001:8001 redis/redis-stack:latest
+
+cd examples/simpleCqrs/
+npm run start
+
+pip3 install redis asyncio
+python3 test.py
 ```
 
 ## License
