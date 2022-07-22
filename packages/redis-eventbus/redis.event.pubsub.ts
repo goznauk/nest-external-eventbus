@@ -40,7 +40,7 @@ export class RedisEventPubsub<EventBase extends StandardEvent>
 				const { eventName, payload }: { eventName: string, payload: never } = JSON.parse(message);
 				if (eventName !== event?.name || !this.subject$) { return; }
 
-				Logger.log(`${ Date.now() }|${ eventName }|RedisEventPubsub`);
+				// Logger.log(`${ Date.now() }|${ eventName }|RedisEventPubsub`);
 				this.subject$.next(new event(payload));
 			});
 		}
