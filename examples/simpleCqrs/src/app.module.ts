@@ -12,12 +12,12 @@ const commandHandlers = [KillDragonHandler, DropAncientItemHandler];
 
 
 @Module({
-	imports: [
-		RedisBusModule.forRoot(events, {
-			subUrl: 'redis://localhost:6379',
-			subChannel: 'REDIS_CHANNEL_HERE',
-		}),
-	],
-	providers: [HeroRepository, ...eventsHandlers, ...commandHandlers],
+  imports: [
+    RedisBusModule.forRoot(events, {
+      subUrl: 'redis://localhost:6379',
+      subChannel: 'REDIS_CHANNEL_HERE',
+    }),
+  ],
+  providers: [HeroRepository, ...eventsHandlers, ...commandHandlers],
 })
 export class AppModule {}

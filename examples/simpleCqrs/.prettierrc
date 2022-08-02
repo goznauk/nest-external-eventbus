@@ -5,7 +5,7 @@
   "singleQuote": true,
   "trailingComma": "all",
   "tabWidth": 2,
-  "useTabs": true,
+  "useTabs": false,
   "parser": "typescript",
   "proseWrap": "preserve",
   "arrowParens": "always",

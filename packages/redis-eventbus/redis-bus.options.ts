@@ -1,6 +1,6 @@
 export interface RedisBusOptions {
-	subUrl: string,
-	subChannel: string,
-	pubUrl?: string,
-	pubChannel?: string
+  subUrl: string,
+  subChannel: string,
+  pubUrl?: string,
+  pubChannel?: string
 }

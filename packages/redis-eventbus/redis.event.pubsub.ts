@@ -9,51 +9,51 @@ import { StandardEvent } from '../standard-event';
 
 @Injectable()
 export class RedisEventPubsub<EventBase extends StandardEvent>
-	implements IMessageSource<EventBase>, IEventPublisher<EventBase>, OnModuleInit {
+  implements IMessageSource<EventBase>, IEventPublisher<EventBase>, OnModuleInit {
 
-	private subject$: Subject<EventBase>;
-	private event$: EventBus<EventBase>;
+  private subject$: Subject<EventBase>;
+  private event$: EventBus<EventBase>;
 
-	constructor(
-		@InjectRedis(SUBSCRIBE) private readonly subRedis: Redis,
-		@InjectRedis(PUBLISH) private readonly pubRedis: Redis,
-		@Inject(SUB_CHANNEL) private readonly subChannel: string,
-		@Inject(PUB_CHANNEL) private readonly pubChannel: string,
-		@Inject(EVENTS) private readonly events: Array<Type>,
-		private readonly moduleRef: ModuleRef,
-	) {}
+  constructor(
+    @InjectRedis(SUBSCRIBE) private readonly subRedis: Redis,
+    @InjectRedis(PUBLISH) private readonly pubRedis: Redis,
+    @Inject(SUB_CHANNEL) private readonly subChannel: string,
+    @Inject(PUB_CHANNEL) private readonly pubChannel: string,
+    @Inject(EVENTS) private readonly events: Array<Type>,
+    private readonly moduleRef: ModuleRef,
+  ) {}
 
-	onModuleInit(): any {
-		this.event$ = this.moduleRef.get(EventBus, { strict: false });
+  onModuleInit(): any {
+    this.event$ = this.moduleRef.get(EventBus, { strict: false });
 
-		this.connect();
-		this.bridgeEventsTo(this.event$.subject$);
-		this.event$.publisher = this;
-	}
+    this.connect();
+    this.bridgeEventsTo(this.event$.subject$);
+    this.event$.publisher = this;
+  }
 
 
-	connect() {
-		// Logger.log(this.events);
-		for (const event of this.events) {
-			void this.subRedis.subscribe(this.subChannel);
-			this.subRedis.on('message', (_channel: string, message: string) => {
-				const { eventName, payload }: { eventName: string, payload: never } = JSON.parse(message);
-				if (eventName !== event?.name || !this.subject$) { return; }
+  connect() {
+    // Logger.log(this.events);
+    for (const event of this.events) {
+      void this.subRedis.subscribe(this.subChannel);
+      this.subRedis.on('message', (_channel: string, message: string) => {
+        const { eventName, payload }: { eventName: string, payload: never } = JSON.parse(message);
+        if (eventName !== event?.name || !this.subject$) { return; }
 
-				// Logger.log(`${ Date.now() }|${ eventName }|RedisEventPubsub`);
-				this.subject$.next(new event(payload));
-			});
-		}
-	}
+        // Logger.log(`${ Date.now() }|${ eventName }|RedisEventPubsub`);
+        this.subject$.next(new event(payload));
+      });
+    }
+  }
 
-	publish<T extends EventBase>(event: T) {
-		// TODO inner process
-		// this.subject$?.next(event);
-		this.pubRedis?.publish(this.pubChannel, JSON.stringify(event));
-	}
+  publish<T extends EventBase>(event: T) {
+    // TODO inner process
+    // this.subject$?.next(event);
+    this.pubRedis?.publish(this.pubChannel, JSON.stringify(event));
+  }
 
-	bridgeEventsTo<T extends EventBase>(subject: Subject<T>) {
-		this.subject$ = subject;
-	}
+  bridgeEventsTo<T extends EventBase>(subject: Subject<T>) {
+    this.subject$ = subject;
+  }
 }
 

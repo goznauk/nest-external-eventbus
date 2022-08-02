@@ -8,52 +8,52 @@ import { RedisEventPubsub } from './redis.event.pubsub';
 
 @Module({})
 export class RedisBusModule {
-	constructor() {}
+  constructor() {}
 
-	static forRoot(
-		events: Type[] = [],
-		options: RedisBusOptions,
-	): DynamicModule {
-		if (!options.pubUrl) {
-			options.pubUrl = options.subUrl;
-		}
-		if (!options.pubChannel) {
-			options.pubChannel = options.subChannel;
-		}
+  static forRoot(
+    events: Type[] = [],
+    options: RedisBusOptions,
+  ): DynamicModule {
+    if (!options.pubUrl) {
+      options.pubUrl = options.subUrl;
+    }
+    if (!options.pubChannel) {
+      options.pubChannel = options.subChannel;
+    }
 
-		return {
-			module: RedisBusModule,
-			imports: [
-				CqrsModule,
-				RedisModule.forRoot({
-					config: [
-						{
-							namespace: SUBSCRIBE,
-							url: options.subUrl,
-						},
-						{
-							namespace: PUBLISH,
-							url: options.pubUrl,
-						},
-					],
-				}),
-			],
-			providers: [
-				{
-					provide: EVENTS,
-					useValue: events,
-				},
-				{
-					provide: SUB_CHANNEL,
-					useValue: options.subChannel,
-				},
-				{
-					provide: PUB_CHANNEL,
-					useValue: options.pubChannel,
-				},
-				RedisEventPubsub,
-			],
-			exports: [RedisBusModule, RedisEventPubsub, CqrsModule],
-		};
-	}
+    return {
+      module: RedisBusModule,
+      imports: [
+        CqrsModule,
+        RedisModule.forRoot({
+          config: [
+            {
+              namespace: SUBSCRIBE,
+              url: options.subUrl,
+            },
+            {
+              namespace: PUBLISH,
+              url: options.pubUrl,
+            },
+          ],
+        }),
+      ],
+      providers: [
+        {
+          provide: EVENTS,
+          useValue: events,
+        },
+        {
+          provide: SUB_CHANNEL,
+          useValue: options.subChannel,
+        },
+        {
+          provide: PUB_CHANNEL,
+          useValue: options.pubChannel,
+        },
+        RedisEventPubsub,
+      ],
+      exports: [RedisBusModule, RedisEventPubsub, CqrsModule],
+    };
+  }
 }
