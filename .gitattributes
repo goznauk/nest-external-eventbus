@@ -1,0 +1,3 @@
+examples/** linguist-detectable=false
+index.js -linguist-detectable=false
+.eslintrc.js -linguist-detectable=false
